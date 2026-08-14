@@ -7,67 +7,88 @@ use Illuminate\Http\Request;
 
 class ProyectoController extends Controller
 {
-    // Listamos todos los proyectos
+    // listamos todos los proyectos
     public function index()
     {
-        return view('proyectos.index', ['proyectos' => Proyecto::all()]);
+        $proyectos = Proyecto::orderBy('created_at', 'desc')->get();
+
+        return view('proyectos.index', ['proyectos' => $proyectos]);
     }
 
-    // Mostramos el formulario para crear
+    // mostramos el formulario para poder crear
     public function create()
     {
         return view('proyectos.create');
     }
 
-    // se guarda el proyecto nuevo 
-    public function store(Request $request) {
-    Proyecto::create([
-        'nombre' => $request->nombre,
-        'fecha_inicio' => $request->fecha_inicio,
-        'estado' => $request->estado,
-        'responsable' => $request->responsable,
-        'monto' => $request->monto,
-    ]);
+    // se guarda el proyecto nuevo
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:150',
+            'fecha_inicio' => 'required|date',
+            'estado' => 'required|string',
+            'responsable' => 'required|string|max:150',
+            'monto' => 'required|integer|min:0',
+        ]);
 
-    return redirect()->route('proyectos.index')->with('mensaje', 'Proyecto agregado correctamente');
+        // Si la peticion trae un JWT que es válido (por ejemplo: probando con Postman), auth('api')->id()
+        // devuelve el id real del usuario. Si no trae token, devuelve null (columna nullable).
+        $validated['created_by'] = auth('api')->id();
+
+        Proyecto::create($validated);
+
+        return redirect()->route('proyectos.index')->with('mensaje', 'Proyecto agregado correctamente');
     }
 
-    // msotramos un proyecto por id
-    public function show($id) {
-        $proyecto = Proyecto::find($id);
+    // msotramos un proyecto por el id
+    public function show($id)
+    {
+        $proyecto = Proyecto::findOrFail($id);
+
         return view('proyectos.show', ['proyecto' => $proyecto]);
     }
 
-    // mostramos el formulario para editar
+    // mostramos el formulario para poder editar
     public function edit($id)
     {
-        $proyecto = Proyecto::find($id);
+        $proyecto = Proyecto::findOrFail($id);
+
         return view('proyectos.edit', ['proyecto' => $proyecto]);
     }
 
-    // actualizamos un proyecto 
-    public function update(Request $request, $id) {
-    Proyecto::update($id, [
-        'nombre' => $request->nombre,
-        'fecha_inicio' => $request->fecha_inicio,
-        'estado' => $request->estado,
-        'responsable' => $request->responsable,
-        'monto' => $request->monto,
-    ]);
+    // actualizamos un proyecto
+    public function update(Request $request, $id)
+    {
+        $proyecto = Proyecto::findOrFail($id);
 
-    return redirect()->route('proyectos.index')->with('mensaje', 'Proyecto actualizado correctamente');
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:150',
+            'fecha_inicio' => 'required|date',
+            'estado' => 'required|string',
+            'responsable' => 'required|string|max:150',
+            'monto' => 'required|integer|min:0',
+        ]);
+
+        $proyecto->update($validated);
+
+        return redirect()->route('proyectos.index')->with('mensaje', 'Proyecto actualizado correctamente');
     }
 
-    // Muestra confirmación de eliminación
-    public function confirmDelete($id) {
-        $proyecto = Proyecto::find($id);
+    //muestra confirmacion de la eliminación
+    public function confirmDelete($id)
+    {
+        $proyecto = Proyecto::findOrFail($id);
+
         return view('proyectos.delete', ['proyecto' => $proyecto]);
     }
 
-    // y eliminamos un proyecto 
-    public function destroy($id) {
-    Proyecto::delete($id);
+    // y eliminamos un proyecto
+    public function destroy($id)
+    {
+        $proyecto = Proyecto::findOrFail($id);
+        $proyecto->delete();
 
-    return redirect()->route('proyectos.index')->with('mensaje', 'Proyecto eliminado correctamente');
+        return redirect()->route('proyectos.index')->with('mensaje', 'Proyecto eliminado correctamente');
     }
 }
