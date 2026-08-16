@@ -8,7 +8,7 @@
         <form action="{{ route('proyectos.store') }}" method="POST" class="space-y-4">
             @csrf
             <x-atoms.input-field label="Nombre" name="nombre" />
-            <x-atoms.input-field label="Fecha de inicio" name="fecha_inicio" type="date" />
+            <x-atoms.input-field label="Fecha de inicio" name="fecha_inicio" type="date" min="2020-01-01" max="2035-12-31" />
 
             <x-atoms.select-field
                 label="Estado"

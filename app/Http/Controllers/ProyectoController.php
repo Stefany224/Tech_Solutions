@@ -26,7 +26,7 @@ class ProyectoController extends Controller
     {
         $validated = $request->validate([
             'nombre' => 'required|string|max:150|regex:/^[\pL\s]+$/u',
-            'fecha_inicio' => 'required|date',
+            'fecha_inicio' => 'required|date|after_or_equal:2020-01-01|before_or_equal:2035-12-31',
             'estado' => 'required|string',
             'responsable' => 'required|string|max:150|regex:/^[\pL\s]+$/u',
             'monto' => 'required|integer|min:1',
@@ -39,6 +39,8 @@ class ProyectoController extends Controller
             'monto.integer' => 'El monto debe ser un numero.',
             'monto.min' => 'El monto debe ser mayor que cero.',
             'fecha_inicio.required' => 'La fecha de inicio es obligatoria.',
+            'fecha_inicio.after_or_equal' => 'La fecha de inicio no puede ser anterior a 2020.',
+            'fecha_inicio.before_or_equal' => 'La fecha de inicio no puede ser posterior a 2035.',
             'estado.required' => 'El estado es obligatorio.',
         ]);
         $validated['created_by'] = auth('api')->id();
@@ -66,7 +68,7 @@ class ProyectoController extends Controller
         $proyecto = Proyecto::findOrFail($id);
         $validated = $request->validate([
             'nombre' => 'required|string|max:150|regex:/^[\pL\s]+$/u',
-            'fecha_inicio' => 'required|date',
+            'fecha_inicio' => 'required|date|after_or_equal:2020-01-01|before_or_equal:2035-12-31',
             'estado' => 'required|string',
             'responsable' => 'required|string|max:150|regex:/^[\pL\s]+$/u',
             'monto' => 'required|integer|min:1',
@@ -79,6 +81,8 @@ class ProyectoController extends Controller
             'monto.integer' => 'El monto debe ser un numero.',
             'monto.min' => 'El monto debe ser mayor que cero.',
             'fecha_inicio.required' => 'La fecha de inicio es obligatoria.',
+            'fecha_inicio.after_or_equal' => 'La fecha de inicio no puede ser anterior a 2020.',
+            'fecha_inicio.before_or_equal' => 'La fecha de inicio no puede ser posterior a 2035.',
             'estado.required' => 'El estado es obligatorio.',
         ]);
         $proyecto->update($validated);

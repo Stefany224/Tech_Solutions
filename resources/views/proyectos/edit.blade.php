@@ -9,7 +9,7 @@
             @csrf
             @method('PUT')
             <x-atoms.input-field label="Nombre" name="nombre" :value="$proyecto->nombre" />
-            <x-atoms.input-field label="Fecha de inicio" name="fecha_inicio" type="date" :value="$proyecto->fecha_inicio" />
+            <x-atoms.input-field label="Fecha de inicio" name="fecha_inicio" type="date" min="2020-01-01" max="2035-12-31" :value="$proyecto->fecha_inicio" />
             <x-atoms.select-field
                 label="Estado"
                 name="estado"
