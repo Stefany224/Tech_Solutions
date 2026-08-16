@@ -17,13 +17,13 @@ class AuthController extends Controller {
             'correo' => ['required', 'string', 'max:255', 'unique:usuarios,correo', 'regex:/^[a-zA-Z0-9][a-zA-Z0-9._%+-]*@[a-zA-Z0-9][a-zA-Z0-9-]*\.(com|cl)$/'],
             'clave'  => 'required|string|min:8',
         ], [
-            'nombre.required' => 'El nombre es obligatorio',
-            'nombre.regex'    => 'El nombre solo puede contener letras y espacios',
-            'correo.required' => 'El correo es obligatorio',
-            'correo.regex' => 'El correo debe tener un formato valido',
-            'correo.unique'   => 'Este correo ya esta registrado',
-            'clave.required'  => 'La clave es obligatoria',
-            'clave.min'       => 'La clave debe tener al menos 8 caracteres',
+            'nombre.required' => 'El nombre es obligatorio.',
+            'nombre.regex'    => 'El nombre solo puede contener letras y espacios.',
+            'correo.required' => 'El correo es obligatorio.',
+            'correo.regex' => 'El correo debe tener un formato valido.',
+            'correo.unique'   => 'Este correo ya esta registrado.',
+            'clave.required'  => 'La clave es obligatoria.',
+            'clave.min'       => 'La clave debe tener al menos 8 caracteres.',
         ]);
 
         // si falla la validacio devolvemos los errores de cliente 422
@@ -49,6 +49,10 @@ class AuthController extends Controller {
         $validator = Validator::make($request->all(), [
             'correo' => 'required|string|email',
             'clave'  => 'required|string',
+        ], [
+            'correo.required' => 'El correo es obligatorio.',
+            'correo.email'    => 'Debe ingresar un correo valido.',
+            'clave.required'  => 'La clave es obligatoria.',
         ]);
 
         if ($validator->fails()) {
@@ -66,6 +70,15 @@ class AuthController extends Controller {
             'message' => 'Login exitoso',
             'token' => $token,
             'token_type' => 'bearer',
+        ]);
+    }
+
+    // Cierra sesion invalidando el token actual
+    public function logout(Request $request) {
+        auth('api')->logout();
+
+        return response()->json([
+            'message' => 'Sesion cerrada correctamente',
         ]);
     }
 }

@@ -18,3 +18,5 @@ Route::middleware('jwt')->get('/perfil', function (Request $request) {
         'usuario' => auth('api')->user(),
     ]);
 });
+
+Route::middleware('jwt')->post('/logout', [AuthController::class, 'logout']);

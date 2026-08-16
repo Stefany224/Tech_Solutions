@@ -3,30 +3,30 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProyectoController;
 
+// pantalla de inicio 
 Route::get('/', function () {
-    return redirect()->route('proyectos.index');
-});
+    return view('inicio');
+})->name('inicio');
 
-// Listamos todos los proyectos
+// vistas de autenticacion :v
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login.view');
+
+Route::get('/register', function () {
+    return view('auth.register');
+})->name('register.view');
+
+// listamos todos los proyectos de JS
 Route::get('/proyectos', [ProyectoController::class, 'index'])->name('proyectos.index');
-
-// el formulario para crear
 Route::get('/proyectos/crear', [ProyectoController::class, 'create'])->name('proyectos.create');
-
-// guardamos el proyecto nuevo 
-Route::post('/proyectos', [ProyectoController::class, 'store'])->name('proyectos.store');
-
-// obtenemos un proyecto por id
 Route::get('/proyectos/{id}', [ProyectoController::class, 'show'])->name('proyectos.show');
-
-// el formulario para editar
 Route::get('/proyectos/{id}/editar', [ProyectoController::class, 'edit'])->name('proyectos.edit');
-
-// actualizar un proyecto por id
-Route::put('/proyectos/{id}', [ProyectoController::class, 'update'])->name('proyectos.update');
-
-// confirmamos antes de eliminar un proyecto
 Route::get('/proyectos/{id}/eliminar', [ProyectoController::class, 'confirmDelete'])->name('proyectos.confirmDelete');
 
-// y eliminamos un proyecto por id
-Route::delete('/proyectos/{id}', [ProyectoController::class, 'destroy'])->name('proyectos.destroy');
+// acciones protegidas con el middleware jwt
+Route::middleware('jwt')->group(function () {
+    Route::post('/proyectos', [ProyectoController::class, 'store'])->name('proyectos.store');
+    Route::put('/proyectos/{id}', [ProyectoController::class, 'update'])->name('proyectos.update');
+    Route::delete('/proyectos/{id}', [ProyectoController::class, 'destroy'])->name('proyectos.destroy');
+});

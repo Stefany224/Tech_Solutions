@@ -32,8 +32,7 @@ class ProyectoController extends Controller
             'monto' => 'required|integer|min:0',
         ]);
 
-        // Si la peticion trae un JWT que es válido (por ejemplo: probando con Postman), auth('api')->id()
-        // devuelve el id real del usuario. Si no trae token, devuelve null (columna nullable).
+        // Si la peticion trae un JWT que es valido devuelve el id del usuario
         $validated['created_by'] = auth('api')->id();
 
         Proyecto::create($validated);
