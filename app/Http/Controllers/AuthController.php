@@ -12,7 +12,7 @@ class AuthController extends Controller {
     // funcion para registrar un usuario nuevo, con la clave cifrada antes de guardarla
     public function register(Request $request) {
         // validamos los datos que llegan del formulario
-       $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'nombre' => 'required|string|max:255|regex:/^[\pL\s]+$/u',
             'correo' => ['required', 'string', 'max:255', 'unique:usuarios,correo', 'regex:/^[a-zA-Z0-9][a-zA-Z0-9._%+-]*@[a-zA-Z0-9][a-zA-Z0-9-]*\.(com|cl)$/'],
             'clave'  => 'required|string|min:8',
@@ -44,7 +44,7 @@ class AuthController extends Controller {
         ], 201);
     }
 
-    // login para validar credenciales y devolvemos un JWT si son correctas
+    // login para validar las credenciales y devolvemos un JWT si llegan a ser correctas
     public function login(Request $request) {
         $validator = Validator::make($request->all(), [
             'correo' => 'required|string|email',

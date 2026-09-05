@@ -23,3 +23,5 @@ Homestead.json
 Homestead.yaml
 database/database.sqlite
 Thumbs.db
+/storage/api-docs
+/resources/views/vendor
