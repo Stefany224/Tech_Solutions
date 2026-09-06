@@ -74,7 +74,7 @@ php artisan jwt:secret
 ```bash
 php artisan migrate
 ```
-## Levantar el proyecto
+### 10. Levantar el proyecto
 
 Se necesitan dos terminales abiertas simultáneamente, ambas ubicadas en la carpeta del proyecto:
 
@@ -91,7 +91,7 @@ npm run dev
 ```
 
 
-### 10. Abrir el proyecto en el navegador con el link de artisan serve.
+### 11. Abrir el proyecto en el navegador con el link de artisan serve.
 
 ## Uso del sistema web
 
