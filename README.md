@@ -16,6 +16,13 @@ git clone https://github.com/Stefany224/Tech_Solutions.git
 cd Tech_Solutions
 ```
 
+En caso de ya tener el proyecto, es mejor solo hacer:
+
+
+```bash
+git pull
+```
+
 ### 2. Instalar las dependencias de PHP
 
 ```bash
@@ -26,6 +33,12 @@ composer install
 
 ```bash
 npm install
+```
+
+Si aparece alguna vulnerabilidad al terminal la instalacion, hacer:
+
+```bash
+npm audit fix
 ```
 
 ### 4. Crear el archivo de entorno:
@@ -101,3 +114,10 @@ Desde la pantalla de inicio se puede registrar un usuario nuevo, iniciar sesion,
 
 Con el proyecto corriendo, la documentacion interactiva de la API esta disponible en:
 http://127.0.0.1:8000/api/documentation
+
+### 12. Ingresar en la terminal del proyecto el siguiente comando.
+Esto solo en caso de un problema al abrir la documentacion swagger.
+
+```bash
+php artisan l5-swagger:generate
+```
