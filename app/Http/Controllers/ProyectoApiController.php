@@ -55,8 +55,8 @@ class ProyectoApiController extends Controller
     {
         $validated = $request->validate([
             'nombre' => 'required|string|max:150|regex:/^[\pL\s]+$/u',
-            'fecha_inicio' => 'required|date',
-            'estado' => 'required|string',
+            'fecha_inicio' => 'required|date|after_or_equal:2020-01-01|before_or_equal:2035-12-31',
+            'estado' => 'required|string|in:Pendiente,En curso,Finalizado',
             'responsable' => 'required|string|max:150|regex:/^[\pL\s]+$/u',
             'monto' => 'required|integer|min:1',
         ], [
@@ -68,7 +68,11 @@ class ProyectoApiController extends Controller
             'monto.integer' => 'El monto debe ser un numero.',
             'monto.min' => 'El monto debe ser mayor que cero.',
             'fecha_inicio.required' => 'La fecha de inicio es obligatoria.',
+            'fecha_inicio.date' => 'La fecha de inicio debe ser una fecha valida.',
+            'fecha_inicio.after_or_equal' => 'La fecha de inicio no puede ser anterior a 2020.',
+            'fecha_inicio.before_or_equal' => 'La fecha de inicio no puede ser posterior a 2035.',
             'estado.required' => 'El estado es obligatorio.',
+            'estado.in' => 'El estado debe ser Pendiente, En curso o Finalizado (La primera letra en mayusculas).',
         ]);
         $validated['created_by'] = auth('api')->id();
         $proyecto = Proyecto::create($validated);
@@ -159,8 +163,8 @@ class ProyectoApiController extends Controller
         }
         $validated = $request->validate([
             'nombre' => 'required|string|max:150|regex:/^[\pL\s]+$/u',
-            'fecha_inicio' => 'required|date',
-            'estado' => 'required|string',
+            'fecha_inicio' => 'required|date|after_or_equal:2020-01-01|before_or_equal:2035-12-31',
+            'estado' => 'required|string|in:Pendiente,En curso,Finalizado',
             'responsable' => 'required|string|max:150|regex:/^[\pL\s]+$/u',
             'monto' => 'required|integer|min:1',
         ], [
@@ -172,7 +176,11 @@ class ProyectoApiController extends Controller
             'monto.integer' => 'El monto debe ser un numero.',
             'monto.min' => 'El monto debe ser mayor que cero.',
             'fecha_inicio.required' => 'La fecha de inicio es obligatoria.',
+            'fecha_inicio.date' => 'La fecha de inicio debe ser una fecha valida.',
+            'fecha_inicio.after_or_equal' => 'La fecha de inicio no puede ser anterior a 2020.',
+            'fecha_inicio.before_or_equal' => 'La fecha de inicio no puede ser posterior a 2035.',
             'estado.required' => 'El estado es obligatorio.',
+            'estado.in' => 'El estado debe ser Pendiente, En curso o Finalizado (La primera letra en mayusculas).',
         ]);
         $proyecto->update($validated);
         return response()->json($proyecto, 200);

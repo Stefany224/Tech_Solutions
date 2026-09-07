@@ -11,7 +11,7 @@
         <form id="form-register" class="space-y-4">
             <x-atoms.input-field label="Nombre" name="nombre" type="text" />
             <x-atoms.input-field label="Correo" name="correo" type="email" />
-            <x-atoms.input-field label="Contraseña" name="clave" type="password" />
+            <x-atoms.input-field label="Contraseña" name="clave" type="password" pattern=".*[\p{L}\d].*" />
 
             <div class="pt-2">
                 <x-atoms.button color="blue" class="w-full">

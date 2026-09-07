@@ -15,7 +15,7 @@ class AuthController extends Controller {
         $validator = Validator::make($request->all(), [
             'nombre' => 'required|string|max:255|regex:/^[\pL\s]+$/u',
             'correo' => ['required', 'string', 'max:255', 'unique:usuarios,correo', 'regex:/^[a-zA-Z0-9][a-zA-Z0-9._%+-]*@[a-zA-Z0-9][a-zA-Z0-9-]*\.(com|cl)$/'],
-            'clave'  => 'required|string|min:8',
+            'clave' => ['required', 'string', 'min:8', 'regex:/[\pL\d]/u'],
         ], [
             'nombre.required' => 'El nombre es obligatorio.',
             'nombre.regex'    => 'El nombre solo puede contener letras y espacios.',
@@ -24,6 +24,7 @@ class AuthController extends Controller {
             'correo.unique'   => 'Este correo ya esta registrado.',
             'clave.required'  => 'La clave es obligatoria.',
             'clave.min'       => 'La clave debe tener al menos 8 caracteres.',
+            'clave.regex' => 'La clave no puede contener solo simbolos.',
         ]);
 
         // si falla la validacio devolvemos los errores de cliente 422
